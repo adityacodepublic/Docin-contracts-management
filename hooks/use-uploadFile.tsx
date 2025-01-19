@@ -43,6 +43,7 @@ export const useUploadFile = () => {
         - Keep all original formatting and layout intact
         - Maintain precise document structure and hierarchy
         - Preserve all whitespace, indentation, and alignment
+        - While converting documents to Markdown (MD), do not use triple backticks in the output. Instead, infer and apply proper Markdown syntax based on the document structure. Use appropriate Markdown elements such as indented code blocks, fenced code blocks (if necessary), or inline code where applicable.
         - Retain exact table layouts and cell alignments
         - Keep all lists, numbering, and bullet points exactly as they appear
         - Preserve all text styling (bold, italic, underline, etc.)
@@ -119,8 +120,8 @@ export const useUploadFile = () => {
             async (documentId) => {
               await Promise.all([
                 update({ id: documentId, content: res }),
-                sendKey(documentId, keys?.expirationDate, keys?.status),
-                sendToAPI(documentId, res),
+                sendKey(documentId, keys?.expirationDate, keys?.status), // send to mongo 
+                sendToAPI(documentId, res)                           // send to embedding
               ]);
             }
           );

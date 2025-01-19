@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
-import { useMemo, useId } from "react";
+import { useMemo } from "react";
 
 interface DocumentIdPageProps {
   params: {
@@ -16,22 +16,21 @@ interface DocumentIdPageProps {
 }
 
 const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
+  const Editor = useMemo(
+    () => dynamic(() => import("@/components/editor"), { ssr: false }),
+    []
+  );
+
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
-
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    [document]
-  );
 
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
     update({ id: params.documentId, content: content });
   };
-  console.log(document?.content);
-  console.log(params.documentId);
+
   if (document === undefined) {
     return (
       <div>
@@ -51,10 +50,10 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   if (document === null) {
     return <div>Not found</div>;
   }
-
+  
   const content = () => {
     let content: string | undefined = undefined;
-    if (document.content)
+    if (document && document.content)
       try {
         content = JSON.stringify(JSON.parse(document?.content));
       } catch (error) {
@@ -81,6 +80,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     return content;
   };
   const cont = content();
+
 
   return (
     <div className="pb-40">
