@@ -26,7 +26,7 @@ export const SettingsModal = () => {
           <ModeToggle />
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-y-1 cursor-pointer" onClick={()=> Router.push('/admin')}>
+          <div className="flex flex-col gap-y-1 cursor-pointer" onClick={()=> router.push('/admin')}>
             <Label>Manage User Roles</Label>
             <span className="text-[0.8rem] text-muted-foreground">
               Change user roles, and permissions 
