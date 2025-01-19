@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useMemo, useId } from "react";
 
 interface DocumentIdPageProps {
   params: {
@@ -19,18 +19,19 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
-  
+
   const Editor = useMemo(
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     [document]
   );
-  
+
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
     update({ id: params.documentId, content: content });
   };
-  console.log(document);
+  console.log(document?.content);
+  console.log(params.documentId);
   if (document === undefined) {
     return (
       <div>
@@ -51,14 +52,44 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     return <div>Not found</div>;
   }
 
+  const content = () => {
+    let content: string | undefined = undefined;
+    if (document.content)
+      try {
+        content = JSON.stringify(JSON.parse(document?.content));
+      } catch (error) {
+        content = JSON.stringify([
+          {
+            id: "1d730fd7-edf6-486a-8e62-82a3d744bf8f",
+            type: "paragraph",
+            props: {
+              textColor: "default",
+              backgroundColor: "default",
+              textAlignment: "left",
+            },
+            content: [
+              {
+                type: "text",
+                text: document.content,
+                styles: {},
+              },
+            ],
+            children: [],
+          },
+        ]);
+      }
+    return content;
+  };
+  const cont = content();
+
   return (
-      <div className="pb-40">
-        <Cover url={document.coverImage} />
-        <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-          <Toolbar initialData={document} />
-          <Editor onChange={onChange} initialContent={document.content} />
-        </div>
+    <div className="pb-40">
+      <Cover url={document.coverImage} />
+      <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
+        <Toolbar initialData={document} />
+        <Editor onChange={onChange} initialContent={cont} />
       </div>
+    </div>
   );
 };
 
