@@ -1,13 +1,13 @@
 "use client";
 
+import EnhancedChatBot from "@/components/chat/enhanced-chat-bot";
 import { Cover } from "@/components/cover";
+import Editor from "@/components/editor";
 import { Toolbar } from "@/components/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import dynamic from "next/dynamic";
-import { useMemo } from "react";
 
 interface DocumentIdPageProps {
   params: {
@@ -16,14 +16,14 @@ interface DocumentIdPageProps {
 }
 
 const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
-
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
+
+  // const Editor = useMemo(
+  //   () => dynamic(() => import("@/components/editor"), { ssr: false }),
+  //   []
+  // );
 
   const update = useMutation(api.documents.update);
 
@@ -50,7 +50,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   if (document === null) {
     return <div>Not found</div>;
   }
-  
+
   const content = () => {
     let content: string | undefined = undefined;
     if (document && document.content)
@@ -80,7 +80,6 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     return content;
   };
   const cont = content();
-
 
   return (
     <div className="pb-40">

@@ -32,6 +32,8 @@ const generationConfig = {
 export const useUploadFile = () => {
   const create = useMutation(api.documents.create);
   const update = useMutation(api.documents.update);
+  const { user } = useUser();
+
   const uploadFile = async (file: File | null) => {
     try {
       if (file) {
@@ -100,13 +102,17 @@ export const useUploadFile = () => {
 
         // send the key shit
         const sendKey = async (id: string, date: string, status?: string) => {
-          const { isSignedIn, user, isLoaded } = useUser();
-          if (!user) return;
+          console.log( {
+            id: id,
+            userid: user?.id,
+            expirationDate: date,
+            status: status, // draft sent signed expired
+          })
           const response = await axios.post(
             `https://contract-management.onrender.com/contract/agreements`,
             {
               id: id,
-              userId: user.id,
+              userid: user?.id,
               expirationDate: date,
               status: status, // draft sent signed expired
             }

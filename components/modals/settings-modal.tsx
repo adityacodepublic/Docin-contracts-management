@@ -4,8 +4,10 @@ import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useSettings } from "@/hooks/use-settings";
+import { useRouter } from "next/navigation";
 
 export const SettingsModal = () => {
+  const router = useRouter();
   const settings = useSettings();
 
   return (
@@ -18,10 +20,18 @@ export const SettingsModal = () => {
           <div className="flex flex-col gap-y-1">
             <Label>Appearance</Label>
             <span className="text-[0.8rem] text-muted-foreground">
-              Customize how Notion looks on your device
+              Customize how Docin looks on your device
             </span>
           </div>
           <ModeToggle />
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-1 cursor-pointer" onClick={()=> Router.push('/admin')}>
+            <Label>Manage User Roles</Label>
+            <span className="text-[0.8rem] text-muted-foreground">
+              Change user roles, and permissions 
+            </span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

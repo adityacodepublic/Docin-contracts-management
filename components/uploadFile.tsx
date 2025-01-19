@@ -23,7 +23,7 @@ const UploadFile: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg shadow-md p-8 text-center text-opacity-80">
+    <div className="rounded-lg p-8 text-center text-opacity-80">
       <h2 className="text-2xl m-5 font-bold mb-5">Upload your documents</h2>
       <div className="mb-6">
         <div className="flex flex-col items-center justify-center w-full">
@@ -62,8 +62,8 @@ const UploadFile: React.FC = () => {
 
       {isLoading && (
         <div className="mt-4 flex justify-center items-center text-blue-500">
-          <Loader className="w-6 h-6 animate-spin" />
-          <span className="ml-2">Converting PDF to Markdown...</span>
+          <Loader className="w-7 h-7 animate-spin" />
+          <span className="ml-2 text-base">Converting PDF to Markdown...</span>
         </div>
       )}
 

@@ -8,7 +8,8 @@ import {
   Search,
   Settings,
   Trash,
-  Upload
+  Upload,
+  ListTodo
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
@@ -156,7 +157,7 @@ export const Navigation = () => {
         >
           <ChevronsLeft className="h-6 w-6" />
         </div>
-        <div>
+        <div className="space-y-1">
           <UserItem />
           <Item
             label="Search"
@@ -165,6 +166,7 @@ export const Navigation = () => {
             onClick={search.onOpen}
           />
           <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
+          <Item label="Renewal" icon={ListTodo} onClick={()=>{router.push('/renewal')}} />
           <Item onClick={()=>router.push('/upload')} label="Add Document" icon={Upload} />
         </div>
         <div className="mt-4">
