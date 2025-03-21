@@ -5,8 +5,10 @@ import { Label } from "@/components/ui/label";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useSettings } from "@/hooks/use-settings";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/clerk-react";
 
 export const SettingsModal = () => {
+  const user = useUser()
   const router = useRouter();
   const settings = useSettings();
 
@@ -25,14 +27,14 @@ export const SettingsModal = () => {
           </div>
           <ModeToggle />
         </div>
-        <div className="flex items-center justify-between">
+{user.user?.publicMetadata?.role &&         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-1 cursor-pointer" onClick={()=> router.push('/admin')}>
             <Label>Manage User Roles</Label>
             <span className="text-[0.8rem] text-muted-foreground">
               Change user roles, and permissions 
             </span>
           </div>
-        </div>
+        </div>}
       </DialogContent>
     </Dialog>
   );
