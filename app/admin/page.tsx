@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
             return (
               <div
                 key={user.id}
-                className="flex items-center justify-between p-4 border rounded-3xl shadow-md bg-white space-x-4"
+                className="flex flex-wrap items-center justify-between p-4 border rounded-3xl shadow-md bg-white space-x-4"
               >
                 <div className="flex items-center justify-center">
                   <Image
@@ -54,7 +54,7 @@ export default async function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="flex">
+                <div className="flex flex-wrap gap-4 pl-7 mt-4 md:mt-0">
                   <form
                     action={setRole}
                     className="flex items-center space-x-2"
