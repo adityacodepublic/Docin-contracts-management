@@ -22,7 +22,6 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
   const params = useParams();
   const [isChatOpen, setIsChatOpen] = useState(false);
 
-
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
   });
@@ -44,7 +43,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
 
   return (
     <>
-      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center gap-x-4">
+      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center gap-x-4 overflow-x-scroll">
         {isCollapsed && (
           <MenuIcon
             role="button"

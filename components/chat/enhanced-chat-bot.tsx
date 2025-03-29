@@ -117,7 +117,7 @@ const EnhancedChatBot = ({
             onChange={(e) => setQuery(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 p-2 rounded-2xl bg-blue-50 text-white border placeholder:text-gray-800 shadow-xl focus:outline-none focus:ring-1 focus:ring-zinc-500 min-h-[48px]"
+            className="flex-1 p-2 rounded-2xl bg-blue-50 border placeholder:text-gray-800 shadow-xl focus:outline-none focus:ring-1 focus:ring-zinc-500 min-h-[48px]"
             disabled={isQuerying}
           />
           <button
