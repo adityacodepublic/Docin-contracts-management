@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
-
 export default async function AdminDashboard() {
   if (!checkRole("admin")) {
     redirect("/");
@@ -22,66 +21,75 @@ export default async function AdminDashboard() {
         Manage your Organization&apos;s Users and Roles
       </p>
 
-      <div className="space-y-4 flex items-center justify-center">
-        {users.map((user) => {
-          return (
-            <div
-              key={user.id}
-              className="flex items-center p-4 border rounded-3xl shadow-md bg-white w-auto space-x-4"
-            >
-              <Image
-                src={user.imageUrl}
-                alt={"user image"}
-                height={40}
-                width={40}
-                className="rounded-full mr-4"
-              />
-              <div>
-                <div className="font-medium text-lg">
-                  {user.firstName} {user.lastName}
-                </div>
-                <div className="text-sm text-gray-600">
-                  {
-                    user.emailAddresses.find(
-                      (email) => email.id === user.primaryEmailAddressId
-                    )?.emailAddress
-                  }
-                </div>
-                <div className="text-sm text-gray-500">
-                  {user.publicMetadata.role as string}
-                </div>
-              </div>
-              <div className="flex ">
-                <form
-                  action={setRole}
-                  method="POST"
-                  className="flex items-center space-x-2"
-                >
-                  <input type="hidden" value={user.id} name="id" />
-                  <Input
-                    name="role"
-                    placeholder="Enter new role"
-                    className="border border-gray-300 p-1 px-4 rounded-xl"
+      <div className="flex justify-center">
+        <div className="space-y-4 inline-flex flex-col justify-center">
+          {users.map((user) => {
+            const role = (user.publicMetadata?.role as string) ?? "";
+            return (
+              <div
+                key={user.id}
+                className="flex items-center justify-between p-4 border rounded-3xl shadow-md bg-white space-x-4"
+              >
+                <div className="flex items-center justify-center">
+                  <Image
+                    src={user.imageUrl}
+                    alt={"user image"}
+                    height={40}
+                    width={40}
+                    className="rounded-full mr-4"
                   />
-                  <Button variant="secondary" type="submit" className="px-3 rounded-xl">
-                    Make Moderator
-                  </Button>
-                </form>
-
-                <form action={removeRole} className="ml-2">
-                  <input type="hidden" value={user.id} name="id" />
-                  <Button
-                    variant={"secondary"}
-                    className="rounded-xl px-3"
-                    type="submit"
+                  <div>
+                    <div className="font-medium text-lg text-gray-600">
+                      {user.firstName} {user.lastName}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {
+                        user.emailAddresses.find(
+                          (email) => email.id === user.primaryEmailAddressId
+                        )?.emailAddress
+                      }
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {user.publicMetadata.role as string}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex">
+                  <form
+                    action={setRole}
+                    className="flex items-center space-x-2"
                   >
-                    Remove Role
-                  </Button>
-                </form>
+                    <input type="hidden" value={user.id} name="id" />
+                    <Input
+                      name="role"
+                      defaultValue={role}
+                      placeholder="Enter new role"
+                      className="border border-gray-300 p-1 px-4 rounded-xl"
+                    />
+                    <Button
+                      variant="secondary"
+                      type="submit"
+                      className="px-3 rounded-xl"
+                    >
+                      Submit
+                    </Button>
+                  </form>
+
+                  <form action={removeRole} className="ml-2">
+                    <input type="hidden" value={user.id} name="id" />
+                    <Button
+                      variant={"secondary"}
+                      className="rounded-xl px-3"
+                      type="submit"
+                    >
+                      Remove Role
+                    </Button>
+                  </form>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </>
   );
